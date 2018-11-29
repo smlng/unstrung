@@ -14,7 +14,7 @@ cache:
 
 cache:
   directories:
-  - $HOME/stuff
+  - /home/travis/deps
 
 env:
   global:
