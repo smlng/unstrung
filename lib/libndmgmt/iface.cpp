@@ -977,6 +977,7 @@ void network_interface::look_for_new_interfaces(rpl_debug *debug)
 
             dag_network::send_all_dag(iface);
         }
+        iface = iface->next;
     }
 }
 
