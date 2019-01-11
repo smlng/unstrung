@@ -1,36 +1,36 @@
 #!/bin/sh
 
-BUILDTOP=`pwd`/stuff
+BUILDDEPS=${HOME}/deps
+mkdir -p $BUILDDEPS
 
-mkdir -p $BUILDTOP
-cd $BUILDTOP
-[ -d mbedtls ] || git clone -b mcr_add_otherName https://github.com/mcr/mbedtls.git
-(cd mbedtls && cmake -DCMAKE_INSTALL_PREFIX=$BUILDTOP . && make && make install )
+MBEDTLS=${BUILDDEPS}/mbedtls
+LIBCBOR=${BUILDDEPS}/libcbor
 
-if [ ! -f $BUILDTOP/include/cbor.h ]
-then
-    if [ ! -d ${BUILDTOP}/libcbor ]; then ( cd $BUILDTOP && git clone https://github.com/mcr/libcbor.git) ; fi
+[ ! -d $MBEDTLS ] &&  {
+    git clone -b mcr_add_otherName https://github.com/mcr/mbedtls.git $MBEDTLS
+}
 
-    (cd ${BUILDTOP}/libcbor && cmake . -DCMAKE_INSTALL_PREFIX:PATH=${BUILDTOP} && make && make install)
-fi
+(cd $MBEDTLS && cmake -DCMAKE_INSTALL_PREFIX=$BUILDDEPS . && make && make install )
 
+[ ! -d $LIBCBOR ] && {
+    git clone https://github.com/mcr/libcbor.git $LIBCBOR
+}
+
+(cd $LIBCBOR && cmake . -DCMAKE_INSTALL_PREFIX:PATH=${BUILDDEPS} && make && make install)
 
 touch Makefile.local
 if grep MBEDTLS Makefile.local
 then
     :
 else
-    echo MBEDTLSH=-I${BUILDTOP}/include          >>Makefile.local
-    echo MBEDTLSLIB=${BUILDTOP}/lib              >>Makefile.local
+    echo MBEDTLSH=-I${BUILDDEPS}/include          >>Makefile.local
+    echo MBEDTLSLIB=${BUILDDEPS}/lib              >>Makefile.local
 fi
 
-if grep MBEDTLS Makefile.local
+if grep CBOR_LIB Makefile.local
 then
     :
 else
-    echo CBOR_LIB=${BUILDTOP}/libcbor/src/libcbor.a      >>Makefile.local
-    echo CBOR_INCLUDE=-I${BUILDTOP}/include -Drestrict=__restrict__   >>Makefile.local
+    echo CBOR_LIB=${BUILDDEPS}/libcbor/src/libcbor.a      >>Makefile.local
+    echo CBOR_INCLUDE=-I${BUILDDEPS}/include -Drestrict=__restrict__   >>Makefile.local
 fi
-
-
-
