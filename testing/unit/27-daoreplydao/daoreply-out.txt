@@ -52,8 +52,8 @@ packet 3 is being processed
   processing dao(44) [42/[2001:db8:661e::1]: daoseq:2,dao-ack]
   new RPL node: fe80::1200:ff:fe64:4a01
   recv DAO rpltarget re: network 2001:db8:1:0:1200:ff:fe64:4a01/128, target fe80::1200:ff:fe64:4a01 (added)
-  invoking ip -6 route add 2001:db8:1:0:1200:ff:fe64:4a01/128 via fe80::1200:ff:fe64:4a01 dev wlan0 src 2001:db8:1:0:216:3eff:fe11:3424
-    would invoke cmd: ip -6 route add 2001:db8:1:0:1200:ff:fe64:4a01/128 via fe80::1200:ff:fe64:4a01 dev wlan0 src 2001:db8:1:0:216:3eff:fe11:3424
+  invoking ip -6 route replace 2001:db8:1:0:1200:ff:fe64:4a01/128 via fe80::1200:ff:fe64:4a01 dev wlan0 src 2001:db8:1:0:216:3eff:fe11:3424
+    would invoke cmd: ip -6 route replace 2001:db8:1:0:1200:ff:fe64:4a01/128 via fe80::1200:ff:fe64:4a01 dev wlan0 src 2001:db8:1:0:216:3eff:fe11:3424
     would invoke cmd: ip -6 route show
 sending DAOACK about 1 networks, to fe80::1200:ff:fe64:4a01
 sending DAOACK on if: wlan0(faked)
